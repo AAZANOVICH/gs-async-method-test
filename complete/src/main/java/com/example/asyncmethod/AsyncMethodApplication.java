@@ -9,24 +9,28 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.util.concurrent.Executor;
 
 @SpringBootApplication
+
 @EnableAsync
 public class AsyncMethodApplication {
 
-	public static void main(String[] args) {
-		// close the application context to shut down the custom ExecutorService
-		SpringApplication.run(AsyncMethodApplication.class, args).close();
-	}
+  public static void main(String[] args) {
+    // close the application context to shut down the custom ExecutorService
+    SpringApplication app = new SpringApplication(AsyncMethodApplication.class);
+   /*  app.setDefaultProperties(Collections
+        .singletonMap("server.port", "8089")); */
+    SpringApplication.run(AsyncMethodApplication.class, args).close();
+  }
 
-	@Bean
-	public Executor taskExecutor() {
-		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-		executor.setCorePoolSize(2);
-		executor.setMaxPoolSize(2);
-		executor.setQueueCapacity(500);
-		executor.setThreadNamePrefix("GithubLookup-");
-		executor.initialize();
-		return executor;
-	}
+  @Bean
+  public Executor taskExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(2);
+    executor.setMaxPoolSize(2);
+    executor.setQueueCapacity(500);
+    executor.setThreadNamePrefix("GithubLookup-");
+    executor.initialize();
+    return executor;
+  }
 
 
 }
